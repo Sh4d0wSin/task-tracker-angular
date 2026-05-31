@@ -6,7 +6,7 @@ import { Task } from '../models/task';
 @Injectable({ providedIn: 'root' })
 export class TaskService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = 'http://localhost:8000/tasks';
+  private readonly baseUrl = 'http://localhost:8080/tasks';
 
   getAll(): Observable<Task[]> {
     return this.http.get<Task[]>(this.baseUrl);

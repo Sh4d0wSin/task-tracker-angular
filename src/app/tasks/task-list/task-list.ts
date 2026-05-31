@@ -1,9 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { TaskService } from '../../services/task.service';
+import { Task } from '../../models/task';
+import { OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-task-list',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './task-list.html',
   styleUrl: './task-list.css',
 })
-export class TaskList {}
+export class TaskList implements OnInit {
+  taskService = inject(TaskService);
+  taskSignal = signal<Task[]>([]);
+  newTitle = signal<string>("");
+  newDescription = signal<string>("");
+
+
+
+  ngOnInit(): void {
+    this.taskService.getAll().subscribe((tasks) => {this.taskSignal.set(tasks)});
+
+  }
+
+  createTask(): void {
+
+    this.taskService.create({title: this.newTitle(), description: this.newDescription(), completed: false})
+    .subscribe((newTask) => {this.taskSignal.update(tasks => [...tasks, newTask])});
+  }
+
+
+}

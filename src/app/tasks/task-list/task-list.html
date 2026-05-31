@@ -1,1 +1,15 @@
-<p>task-list works!</p>
+
+
+<form (ngSubmit)="createTask()">
+<div><input (input)="newTitle.set($event.target.value)" placeholder = "title"> </div>
+<div><input (input)="newDescription.set($event.target.value)" placeholder = "description"> </div>
+<div><button>Create</button></div>
+</form>
+
+@for (task of taskSignal(); track task.id ) {
+   
+   <div>
+    <div> {{task.title}}</div>
+    <div> {{task.description}}</div>
+    </div>
+}                   
