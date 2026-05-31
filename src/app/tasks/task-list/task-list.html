@@ -11,5 +11,9 @@
    <div>
     <div> {{task.title}}</div>
     <div> {{task.description}}</div>
+    <div><button (click) = "toggleTask(task)">@if (task.completed) {Undo} @else {Complete}</button></div>
+    <div><button (click) = "deleteTask(task.id)">Delete</button></div>
     </div>
+
+    
 }                   
