@@ -1,4 +1,4 @@
-import { Component, inject, PendingTasks, signal } from '@angular/core';
+import { Component, inject,signal } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { Task } from '../../models/task';
 import { OnInit } from '@angular/core';
@@ -16,11 +16,13 @@ export class TaskList implements OnInit {
   taskSignal = signal<Task[]>([]);
   newTitle = signal<string>("");
   newDescription = signal<string>("");
+  isLoading = signal(true);
+  hasError = signal(false);
 
 
 
   ngOnInit(): void {
-    this.taskService.getAll().subscribe((tasks) => {this.taskSignal.set(tasks)});
+    this.taskService.getAll().subscribe((tasks) => {this.taskSignal.set(tasks); this.isLoading.set(false)}, (error) => {this.isLoading.set(false); this.hasError.set(true)});
 
   }
 

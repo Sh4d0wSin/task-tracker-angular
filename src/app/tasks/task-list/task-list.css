@@ -1,0 +1,22 @@
+.task-item {
+    padding: 12px;
+    margin-bottom: 8px;
+    border: 1px solid #ccc;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: #888;
+
+}
+
+:host {
+    display: block;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 0 16px;
+}
+
+.form {
+    margin-bottom: 24px;
+}

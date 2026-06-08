@@ -1,19 +1,31 @@
+@if (hasError()) {
+    <div>Could not load tasks. Please try again later.</div>
+}
+@if (isLoading()) {
+    <div>Loading...</div>
+}
 
+@if (!hasError()) {
+    <form (ngSubmit)="createTask()">
+        <div><input (input)="newTitle.set($event.target.value)" placeholder = "title"> </div>
+        <div><input (input)="newDescription.set($event.target.value)" placeholder = "description"> </div>
+        <div><button>Create</button></div>
+    </form>
 
-<form (ngSubmit)="createTask()">
-<div><input (input)="newTitle.set($event.target.value)" placeholder = "title"> </div>
-<div><input (input)="newDescription.set($event.target.value)" placeholder = "description"> </div>
-<div><button>Create</button></div>
-</form>
-
-@for (task of taskSignal(); track task.id ) {
+    @for (task of taskSignal(); track task.id ) {
    
-   <div>
-    <div> {{task.title}}</div>
-    <div> {{task.description}}</div>
-    <div><button (click) = "toggleTask(task)">@if (task.completed) {Undo} @else {Complete}</button></div>
-    <div><button (click) = "deleteTask(task.id)">Delete</button></div>
+    <div class="task-item">
+        <div [class.completed] = "task.completed"> {{task.title}}</div>
+        <div> {{task.description}}</div>
+        <div><button (click) = "toggleTask(task)">@if (task.completed) {Undo} @else {Complete}</button></div>
+        <div><button (click) = "deleteTask(task.id)">Delete</button></div>
     </div>
 
     
-}                   
+    } @empty  {
+        <div>No tasks yet</div>
+    }  
+}
+
+
+            
