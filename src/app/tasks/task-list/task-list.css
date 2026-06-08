@@ -1,7 +1,9 @@
 .task-item {
     padding: 12px;
     margin-bottom: 8px;
-    border: 1px solid #ccc;
+    background-color: #16213e;
+    border: 1px solid #0f3460;
+    border-radius: 8px
 }
 
 .completed {
@@ -17,6 +19,33 @@
     padding: 0 16px;
 }
 
-.form {
+form {
+    margin-bottom: 24px;
+}
+
+input {
+    background-color: #16213e;
+    color: #e0e0e0;
+    border: 1px solid #0f3460;
+    padding: 8px;
+    border-radius: 4px;
+    margin-right: 8px;
+}
+
+button {
+    background-color: #0f3460;
+    color: #e0e0e0;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #e94560;
+}
+
+h1 {
+    color: #e94560;
     margin-bottom: 24px;
 }
