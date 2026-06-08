@@ -21,10 +21,20 @@
     @for (task of taskSignal(); track task.id ) {
    
     <div class="task-item">
-        <div [class.completed] = "task.completed"> {{task.title}}</div>
-        <div> {{task.description}}</div>
-        <div><button (click) = "toggleTask(task)">@if (task.completed) {Undo} @else {Complete}</button></div>
-        <div><button (click) = "deleteTask(task.id)">Delete</button></div>
+        @if (editingTaskId() == task.id) {
+              <div><input [value]="editTitle()" (input)="editTitle.set($event.target.value)" ></div>
+              <div><input [value]="editDescription()" (input)="editDescription.set($event.target.value)" ></div>
+              <div><button (click)="saveEdit(task)">Save</button></div>
+              <div><button (click)="cancelEdit()">Cancel</button></div>
+        } @else {
+               <div [class.completed]="task.completed">{{task.title}}</div>
+               <div>{{task.description}}</div>
+               <div><button (click)="startEdit(task)">Edit</button></div>
+               <div><button (click) = "toggleTask(task)">@if (task.completed) {Undo} @else {Complete}</button></div>
+               <div><button (click) = "deleteTask(task.id)">Delete</button></div>
+
+        }
+       
     </div>
 
     

@@ -18,6 +18,9 @@ export class TaskList implements OnInit {
   newDescription = signal<string>("");
   isLoading = signal(true);
   hasError = signal(false);
+  editingTaskId = signal<number | null>(null)
+  editTitle = signal<string>('')
+  editDescription = signal<string>('')
 
 
 
@@ -40,6 +43,21 @@ export class TaskList implements OnInit {
     
     this.taskService.update(task.id, {...task, completed: !task.completed}).
     subscribe((updatedtask) => {this.taskSignal.update(tasks => tasks.map(t => (t.id == task.id) ? updatedtask : t ))});
+  }
+
+  startEdit(task: Task) : void {
+    this.editingTaskId.set(task.id);
+    this.editDescription.set(task.description);
+    this.editTitle.set(task.title);
+  }
+
+  cancelEdit(): void {
+    this.editingTaskId.set(null);
+  }
+
+  saveEdit(task: Task) : void {
+    this.taskService.update(task.id, { ...task, title: this.editTitle(), description: this.editDescription()}).
+    subscribe((editedTask) => {this.taskSignal.update(tasks => tasks.map(t => (t.id == task.id) ? editedTask : t)); this.cancelEdit()});
   }
 
 
