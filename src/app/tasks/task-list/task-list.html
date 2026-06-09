@@ -12,7 +12,7 @@
     <form (ngSubmit)="createTask()">
         <input (input)="newTitle.set($event.target.value)" placeholder="Title">
         <input (input)="newDescription.set($event.target.value)" placeholder="Description">
-        <button class="create-btn">Create</button>
+        <button [disabled]="isSubmitting()" class="create-btn">Create</button>
     </form>
 
     @for (task of taskSignal(); track task.id) {
@@ -23,7 +23,7 @@
                     <input [value]="editDescription()" (input)="editDescription.set($event.target.value)">
                 </div>
                 <div class="edit-actions">
-                    <button (click)="saveEdit(task)">Save</button>
+                    <button [disabled]="isSubmitting()" (click)="saveEdit(task)">Save</button>
                     <button (click)="cancelEdit()">Cancel</button>
                 </div>
             } @else {
@@ -31,8 +31,8 @@
                 <div class="task-description">{{task.description}}</div>
                 <div class="task-actions">
                     <button (click)="startEdit(task)">Edit</button>
-                    <button (click)="toggleTask(task)">@if (task.completed) {Undo} @else {Complete}</button>
-                    <button (click)="deleteTask(task.id)">Delete</button>
+                    <button [disabled]="isSubmitting()" (click)="toggleTask(task)">@if (task.completed) {Undo} @else {Complete}</button>
+                    <button [disabled]="isSubmitting()" (click)="deleteTask(task.id)">Delete</button>
                 </div>
             }
         </div>

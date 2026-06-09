@@ -18,9 +18,10 @@ export class TaskList implements OnInit {
   newDescription = signal<string>("");
   isLoading = signal(true);
   hasError = signal(false);
-  editingTaskId = signal<number | null>(null)
-  editTitle = signal<string>('')
-  editDescription = signal<string>('')
+  editingTaskId = signal<number | null>(null);
+  editTitle = signal<string>('');
+  editDescription = signal<string>('');
+  isSubmitting = signal(false);
 
 
 
@@ -30,19 +31,20 @@ export class TaskList implements OnInit {
   }
 
   createTask(): void {
-
+    this.isSubmitting.set(true);
     this.taskService.create({title: this.newTitle(), description: this.newDescription(), completed: false})
-    .subscribe((newTask) => {this.taskSignal.update(tasks => [...tasks, newTask])});
+    .subscribe((newTask) => {this.taskSignal.update(tasks => [...tasks, newTask]); this.isSubmitting.set(false)});
   }
 
   deleteTask(id: number): void {
-    this.taskService.delete(id).subscribe(() => {this.taskSignal.update(tasks => tasks.filter(task => task.id !== id))});
+    this.isSubmitting.set(true);
+    this.taskService.delete(id).subscribe(() => {this.taskSignal.update(tasks => tasks.filter(task => task.id !== id)); this.isSubmitting.set(false)});
   }
 
   toggleTask(task: Task): void {
-    
+    this.isSubmitting.set(true);
     this.taskService.update(task.id, {...task, completed: !task.completed}).
-    subscribe((updatedtask) => {this.taskSignal.update(tasks => tasks.map(t => (t.id == task.id) ? updatedtask : t ))});
+    subscribe((updatedtask) => {this.taskSignal.update(tasks => tasks.map(t => (t.id == task.id) ? updatedtask : t )); this.isSubmitting.set(false)});
   }
 
   startEdit(task: Task) : void {
@@ -56,8 +58,9 @@ export class TaskList implements OnInit {
   }
 
   saveEdit(task: Task) : void {
+    this.isSubmitting.set(true);
     this.taskService.update(task.id, { ...task, title: this.editTitle(), description: this.editDescription()}).
-    subscribe((editedTask) => {this.taskSignal.update(tasks => tasks.map(t => (t.id == task.id) ? editedTask : t)); this.cancelEdit()});
+    subscribe((editedTask) => {this.taskSignal.update(tasks => tasks.map(t => (t.id == task.id) ? editedTask : t)); this.cancelEdit();  this.isSubmitting.set(false)});
   }
 
 
