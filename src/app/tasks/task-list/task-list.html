@@ -31,7 +31,12 @@
                 <div class="task-description">{{task.description}}</div>
                 <div class="task-actions">
                     <button (click)="startEdit(task)">Edit</button>
-                    <button [disabled]="isSubmitting()" (click)="toggleTask(task)">@if (task.completed) {Undo} @else {Complete}</button>
+                    <button [disabled]="isSubmitting()" (click)="toggleTask(task)">@if (countdowns()[task.id]) {
+                            Undo ({{ countdowns()[task.id] }})
+                            } @else {
+                                @if (task.completed) {Undo} @else {Complete}
+                            }
+                    </button>
                     <button [disabled]="isSubmitting()" (click)="deleteTask(task.id)">Delete</button>
                 </div>
             }

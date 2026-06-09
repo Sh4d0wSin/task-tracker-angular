@@ -22,6 +22,8 @@ export class TaskList implements OnInit {
   editTitle = signal<string>('');
   editDescription = signal<string>('');
   isSubmitting = signal(false);
+  countdowns = signal<Record<number,number>>({});
+  private timers: Record<number, ReturnType<typeof setInterval>> = {}
 
 
 
@@ -44,7 +46,9 @@ export class TaskList implements OnInit {
   toggleTask(task: Task): void {
     this.isSubmitting.set(true);
     this.taskService.update(task.id, {...task, completed: !task.completed}).
-    subscribe((updatedtask) => {this.taskSignal.update(tasks => tasks.map(t => (t.id == task.id) ? updatedtask : t )); this.isSubmitting.set(false)});
+    subscribe((updatedtask) => {this.taskSignal.update(tasks => tasks.map(t => (t.id == task.id) ? updatedtask : t )); this.isSubmitting.set(false);
+      if (!task.completed) {this.startCountdown(updatedtask.id)} else {this.clearCountdown(updatedtask.id)}
+    });
   }
 
   startEdit(task: Task) : void {
@@ -62,6 +66,25 @@ export class TaskList implements OnInit {
     this.taskService.update(task.id, { ...task, title: this.editTitle(), description: this.editDescription()}).
     subscribe((editedTask) => {this.taskSignal.update(tasks => tasks.map(t => (t.id == task.id) ? editedTask : t)); this.cancelEdit();  this.isSubmitting.set(false)});
   }
+
+  startCountdown(taskId: number): void {
+    this.countdowns.update(c => ({ ...c, [taskId]: 10 }))
+    this.timers[taskId] = setInterval(() => {
+      this.countdowns.update(c => ({ ...c, [taskId]: c[taskId] - 1 }));
+      if (this.countdowns()[taskId] == 0) {
+          this.deleteTask(taskId);
+          clearInterval(this.timers[taskId]);
+      } 
+     }, 1000);
+
+  }
+
+  clearCountdown(taskId: number): void {
+    clearInterval(this.timers[taskId]);
+    this.countdowns.update(c => { const { [taskId]: _, ...rest } = c; return rest; })
+  }
+
+
 
 
 }
