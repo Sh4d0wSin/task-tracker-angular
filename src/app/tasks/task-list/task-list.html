@@ -16,7 +16,7 @@
     </form>
 
     @for (task of taskSignal(); track task.id) {
-        <div class="task-item">
+        <div class="task-item" [class.completed-card]="task.completed">
             @if (editingTaskId() == task.id) {
                 <div class="edit-inputs">
                     <input [value]="editTitle()" (input)="editTitle.set($event.target.value)">

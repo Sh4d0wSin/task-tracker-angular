@@ -86,12 +86,40 @@ button:hover {
     font-weight: 600;
     color: #e0e0e0;
     margin-bottom: 4px;
+    position: relative;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+.task-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0;
+    height: 2px;
+    background-color: #e94560;
+    transition: width 0.4s ease;
+}
+
+.task-title.completed::after {
+    width: 100%;
+}
+
+.task-title.completed {
+    color: #556;
 }
 
 .task-description {
     font-size: 0.875rem;
     color: #a0a0b0;
     margin-bottom: 12px;
+    transition: opacity 0.3s ease;
+}
+
+.task-item.completed-card {
+    border-color: #2a4a2a;
+    background-color: #111e11;
 }
 
 .task-actions {
@@ -100,7 +128,6 @@ button:hover {
 }
 
 .completed {
-    text-decoration: line-through;
     color: #556;
 }
 
