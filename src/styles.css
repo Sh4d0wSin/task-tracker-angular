@@ -2,3 +2,38 @@ body {
     background-color: #1a1a2e;
     color: #e0e0e0;
 }
+
+input {
+    width: 100%;
+    background-color: #0d1b2a;
+    color: #e0e0e0;
+    border: 1px solid #0f3460;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+    outline: none;
+}
+
+input:focus {
+    border-color: #e94560;
+}
+
+input::placeholder {
+    color: #556;
+}
+
+button {
+    background-color: #0f3460;
+    color: #e0e0e0;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: background-color 0.15s ease;
+}
+
+button:hover {
+    background-color: #e94560;
+}

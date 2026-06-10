@@ -10,37 +10,21 @@
 
 @if (!hasError()) {
     <form (ngSubmit)="createTask()">
-        <input (input)="newTitle.set($event.target.value)" placeholder="Title">
-        <input (input)="newDescription.set($event.target.value)" placeholder="Description">
+        <input (input)="newTitle.set($any($event.target).value)" placeholder="Title">
+        <input (input)="newDescription.set($any($event.target).value)" placeholder="Description">
         <button [disabled]="isSubmitting()" class="create-btn">Create</button>
     </form>
+    <div>{{ completedCount() }} of {{ totalCount() }} completed</div>
 
     @for (task of taskSignal(); track task.id) {
-        <div class="task-item" [class.completed-card]="task.completed">
-            @if (editingTaskId() == task.id) {
-                <div class="edit-inputs">
-                    <input [value]="editTitle()" (input)="editTitle.set($event.target.value)">
-                    <input [value]="editDescription()" (input)="editDescription.set($event.target.value)">
-                </div>
-                <div class="edit-actions">
-                    <button [disabled]="isSubmitting()" (click)="saveEdit(task)">Save</button>
-                    <button (click)="cancelEdit()">Cancel</button>
-                </div>
-            } @else {
-                <div class="task-title" [class.completed]="task.completed">{{task.title}}</div>
-                <div class="task-description">{{task.description}}</div>
-                <div class="task-actions">
-                    <button (click)="startEdit(task)">Edit</button>
-                    <button [disabled]="isSubmitting()" (click)="toggleTask(task)">@if (countdowns()[task.id]) {
-                            Undo ({{ countdowns()[task.id] }})
-                            } @else {
-                                @if (task.completed) {Undo} @else {Complete}
-                            }
-                    </button>
-                    <button [disabled]="isSubmitting()" (click)="deleteTask(task.id)">Delete</button>
-                </div>
-            }
-        </div>
+        <app-task-item
+            [task]="task"
+            [isSubmitting]="isSubmitting()"
+            [countdowns]="countdowns()"
+            (deleteTask)="deleteTask($event)"
+            (toggleTask)="toggleTask($event)"
+            (saveEdit)="onSaveEdit($event)"
+        />
     } @empty {
         <div class="empty-state">No tasks yet — create one above.</div>
     }

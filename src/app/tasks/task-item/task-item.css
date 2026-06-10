@@ -1,0 +1,76 @@
+/* Task card */
+.task-item {
+    padding: 16px;
+    margin-bottom: 12px;
+    background-color: #16213e;
+    border: 1px solid #0f3460;
+    border-radius: 10px;
+    transition: border-color 0.2s ease;
+}
+
+.task-item:hover {
+    border-color: #e94560;
+}
+
+.task-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #e0e0e0;
+    margin-bottom: 4px;
+    position: relative;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+.task-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0;
+    height: 2px;
+    background-color: #e94560;
+    transition: width 0.4s ease;
+}
+
+.task-title.completed::after {
+    width: 100%;
+}
+
+.task-title.completed {
+    color: #556;
+}
+
+.task-description {
+    font-size: 0.875rem;
+    color: #a0a0b0;
+    margin-bottom: 12px;
+    transition: opacity 0.3s ease;
+}
+
+.task-item.completed-card {
+    border-color: #2a4a2a;
+    background-color: #111e11;
+}
+
+.task-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.completed {
+    color: #556;
+}
+
+/* Edit mode */
+.edit-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.edit-actions {
+    display: flex;
+    gap: 8px;
+}
